@@ -5,7 +5,10 @@ from dataclasses import dataclass
 from logger.ILogger import ILogger
 
 class Logger(ILogger):
-    __logger = logging.getLogger(__name__)
+    def __init__(self):
+        logging.basicConfig(level=logging.NOTSET)
+        self.__logger = logging.getLogger(__name__)
+
 
     @dataclass
     class LogContext:
