@@ -18,7 +18,7 @@ class CameraMp4Exporter(BaseCameraExporter):
         if self.video_writer is None:
             height, width, _ = img.shape
             file_path = camera_export_settings.file_name.parent if not camera_export_settings.output_path else camera_export_settings.output_path.absolute()
-            video_name = file_path / (camera_export_settings.file_name.stem + f".{camera_export_settings.view}.mp4")
+            video_name = file_path / (camera_export_settings.file_name.stem + f".{camera_export_settings.camera}.{camera_export_settings.view}.mp4")
             self.video_writer = cv2.VideoWriter(str(video_name), cv2.VideoWriter_fourcc(*'mp4v'), 10,
                                                 (width, height))
 
