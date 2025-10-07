@@ -8,6 +8,7 @@ from amiga.camera.export.ECameraExportMethod import ECameraExportMethod
 
 @dataclass
 class CameraExportSettings:
+    """Contains all settings for exporting camera data."""
     camera: ECamera
     view: EView
     export_method: ECameraExportMethod

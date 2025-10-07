@@ -30,8 +30,16 @@ class BaseCameraExporter(ICameraExporter, ABC):
 
     @abstractmethod
     def handle_frame(self, event_log: EventLogPosition, sample: oak_pb2.OakFrame, img: cv2.Mat, camera_export_settings: CameraExportSettings):
+        """
+        Method called for each frame to export for.
+        :param event_log: The EventLogPosition corresponding to this frame.
+        :param sample: The OakFrame corresponding to this frame.
+        :param img: The CV2.Mat corresponding to this frame.
+        :param camera_export_settings: The settings to export with.
+        """
         pass
 
     @abstractmethod
     def close(self):
+        """Will be called once exporting is finished. Can be used to close / clean / end streams and/or resources."""
         pass

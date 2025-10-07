@@ -24,16 +24,26 @@ class CameraParser:
             self, file_name: Path, output_path: Path, camera: ECamera = ECamera.OAK0, view: EView = EView.RGB, disparity_scale: int = 1,
             export_method: ECameraExportMethod = ECameraExportMethod.JPG
     ) -> None:
-        # create the file reader
+        """
+        Parses information from an 'events.bin' file.
+
+        :param file_name: Path to the `events.bin` file.
+        :param output_path: Path to the folder where converted data will be written.
+        :param camera: The name of the camera to visualize. Default: oak0.
+        :param view: The name of the camera view to visualize. Default: rbg.
+        :param disparity_scale: Scale for amplifying disparity color mapping. Default: 1.
+        :param export_method: Type to export.
+        """
+        # Create the file reader.
         reader = EventsFileReader(file_name)
         success: bool = reader.open()
         if not success:
             raise RuntimeError(f"Failed to open events file: {file_name}")
 
-        # get the index of the events file
+        # Get the index of the events file.
         events_index: list[EventLogPosition] = reader.get_index()
 
-        # structure the index as a dictionary of lists of events
+        # Structure the index as a dictionary of lists of events.
         events_dict: dict[str, list[EventLogPosition]] = build_events_dict(events_index)
 
         self.logger.info(f"All available topics: {sorted(events_dict.keys())}")
@@ -54,15 +64,15 @@ class CameraParser:
             export_method=export_method
         )
 
+        # Export.
         exporter: ICameraExporter
-
         if camera_export_settings.export_method == ECameraExportMethod.JPG:
             exporter = CameraJpgExporter()
         elif camera_export_settings.export_method == ECameraExportMethod.MP4:
             exporter = CameraMp4Exporter()
         else:
             raise NotImplementedError()
-
         exporter.export(camera_events, camera_export_settings)
 
+        # Close resources.
         reader.close()
