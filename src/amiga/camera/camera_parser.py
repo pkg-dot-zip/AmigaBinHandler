@@ -30,7 +30,7 @@ class CameraParser:
     def parse(
             self, file_name: Path, output_path: Path, camera: ECamera = ECamera.OAK0, view: EView = EView.RGB, disparity_scale: int = 1,
             export_method: ECameraExportMethod = ECameraExportMethod.JPG
-    ) -> None:
+    ) -> bool:
         """
         Parses camera information from an 'events.bin' file.
 
@@ -45,7 +45,8 @@ class CameraParser:
         reader = EventsFileReader(file_name)
         success: bool = reader.open()
         if not success:
-            raise RuntimeError(f"Failed to open events file: {file_name}")
+            self.logger.error(f"Failed to open events file: {file_name}")
+            return False
 
         # Get the index of the events file.
         events_index: list[EventLogPosition] = reader.get_index()
@@ -58,7 +59,8 @@ class CameraParser:
         # customize camera and view
         topic_name = f"/{camera}/{view}"
         if topic_name not in events_dict:
-            raise RuntimeError(f"Camera view not found: {topic_name}")
+            self.logger.error(f"Camera view not found: {topic_name}")
+            return False
 
         camera_events: list[EventLogPosition] = events_dict[topic_name]
 
@@ -83,3 +85,4 @@ class CameraParser:
 
         # Close resources.
         reader.close()
+        return True
