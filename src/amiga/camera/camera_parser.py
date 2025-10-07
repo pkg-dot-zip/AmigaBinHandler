@@ -11,6 +11,8 @@ from amiga.camera.EView import EView
 from amiga.camera.export.CameraExportSettings import CameraExportSettings
 from amiga.camera.export.CameraJpgExporter import CameraJpgExporter
 from amiga.camera.export.CameraMp4Exporter import CameraMp4Exporter
+from amiga.camera.export.ECameraExportMethod import ECameraExportMethod
+from amiga.camera.export.ICameraExporter import ICameraExporter
 from logger.ILogger import ILogger
 
 
@@ -20,7 +22,7 @@ class CameraParser:
 
     def parse(
             self, file_name: Path, output_path: Path, camera: ECamera = ECamera.OAK0, view: EView = EView.RGB, disparity_scale: int = 1,
-            video_to_jpg: bool = True
+            export_method: ECameraExportMethod = ECameraExportMethod.JPG
     ) -> None:
         # create the file reader
         reader = EventsFileReader(file_name)
@@ -49,12 +51,18 @@ class CameraParser:
             output_path=output_path,
             view=view,
             disparity_scale=disparity_scale,
-            video_to_jpg=video_to_jpg
+            export_method=export_method
         )
 
-        if camera_export_settings.video_to_jpg:
-            CameraJpgExporter().export(camera_events, camera_export_settings)
+        exporter: ICameraExporter
+
+        if camera_export_settings.export_method == ECameraExportMethod.JPG:
+            exporter = CameraJpgExporter()
+        elif camera_export_settings.export_method == ECameraExportMethod.MP4:
+            exporter = CameraMp4Exporter()
         else:
-            CameraMp4Exporter().export(camera_events, camera_export_settings)
+            raise NotImplementedError()
+
+        exporter.export(camera_events, camera_export_settings)
 
         reader.close()
