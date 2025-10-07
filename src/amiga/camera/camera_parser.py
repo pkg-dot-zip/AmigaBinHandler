@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Optional
 
 import cv2
 import numpy as np
@@ -47,7 +48,7 @@ class CameraParser:
         cv2.namedWindow(topic_name, cv2.WINDOW_NORMAL)
 
         # create a video writer to write the video
-        video_writer: cv2.VideoWriter | None = None
+        video_writer: Optional[cv2.VideoWriter] = None
 
         event_log: EventLogPosition
         for event_log in tqdm(camera_events):
