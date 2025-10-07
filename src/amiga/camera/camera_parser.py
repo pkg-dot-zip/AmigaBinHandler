@@ -20,12 +20,19 @@ class CameraParser:
     def __init__(self, logger: ILogger):
         self.logger = logger
 
+    def parse_all(self, file_name: Path, output_path: Path, disparity_scale: int = 1,
+            export_method: ECameraExportMethod = ECameraExportMethod.JPG) -> None:
+        """Parses all possible camera information from an 'events.bin' file."""
+        for camera in ECamera:
+            for view in EView:
+                self.parse(file_name, output_path, camera, view, disparity_scale, export_method)
+
     def parse(
             self, file_name: Path, output_path: Path, camera: ECamera = ECamera.OAK0, view: EView = EView.RGB, disparity_scale: int = 1,
             export_method: ECameraExportMethod = ECameraExportMethod.JPG
     ) -> None:
         """
-        Parses information from an 'events.bin' file.
+        Parses camera information from an 'events.bin' file.
 
         :param file_name: Path to the `events.bin` file.
         :param output_path: Path to the folder where converted data will be written.

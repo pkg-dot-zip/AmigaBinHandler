@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e52ae8fb-1fa6-40e7-9802-6965f73cf478" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/amiga/camera/camera_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/amiga/camera/camera_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/amiga/camera/export/BaseCameraExporter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/amiga/camera/export/BaseCameraExporter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/amiga/camera/export/CameraExportSettings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/amiga/camera/export/CameraExportSettings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/amiga/camera/export/ECameraExportMethod.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/amiga/camera/export/ECameraExportMethod.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/amiga/camera/export/ICameraExporter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/amiga/camera/export/ICameraExporter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
