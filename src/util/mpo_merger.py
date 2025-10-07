@@ -25,5 +25,5 @@ class MPOMerger:
         from PIL import Image
         im1 = Image.open(img_path_1)
         im2 = Image.open(img_path_2)
-        im1.save(export_path, save_all=True, append_images=[im2])
+        im1.save(export_path, save_all=True, append_images=[im2], format='MPO')
         self.logger.info(f"Saved new mpo file to {export_path}")

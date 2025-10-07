@@ -14,11 +14,13 @@ from amiga.camera.export.CameraMp4Exporter import CameraMp4Exporter
 from amiga.camera.export.ECameraExportMethod import ECameraExportMethod
 from amiga.camera.export.ICameraExporter import ICameraExporter
 from logger.ILogger import ILogger
+from util.mpo_merger import MPOMerger
 
 
 class CameraParser:
-    def __init__(self, logger: ILogger):
+    def __init__(self, logger: ILogger, mpo_merger: MPOMerger):
         self.logger = logger
+        self.mpo_merger = mpo_merger
 
     def parse_all(self, file_name: Path, output_path: Path, disparity_scale: int = 1,
             export_method: ECameraExportMethod = ECameraExportMethod.JPG) -> None:
@@ -87,4 +89,24 @@ class CameraParser:
 
         # Close resources.
         reader.close()
+
+        # MPO.
+        if camera_export_settings.attempt_mpo_combining:
+            self.__create_mpo_files(camera_export_settings.output_path)
+
         return True
+
+
+    def __create_mpo_files(self, root_path: Path) -> None:
+        """Create mpo files from left & right images."""
+        for child_dir in root_path.iterdir():
+            if child_dir.is_dir():
+                for camera in ECamera:
+                    cam_dir_path = child_dir / f"{camera}"
+                    left_dir_path = cam_dir_path / EView.LEFT
+                    right_dir_path = cam_dir_path / EView.RIGHT
+                    mpo_output_dir_path = (cam_dir_path / "mpo")
+                    mpo_output_dir_path.mkdir(parents=True, exist_ok=True)
+
+                    if left_dir_path.exists() and right_dir_path.exists():
+                        self.mpo_merger.merge_folders(mpo_output_dir_path, left_dir_path, right_dir_path)
