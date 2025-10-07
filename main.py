@@ -33,4 +33,4 @@ def old_code():
 
 if __name__ == "__main__":
     container = DIContainer.get_container()
-    container[CameraParser].parse(Path("/home/lincoln/Documents/amiga_test/test_bin.bin"), Path("/home/lincoln/Documents/amiga_test/output/"), "oak0", "rgb", 1, True)
+    container[CameraParser].parse(Path("/home/lincoln/Documents/amiga_test/test_bin.bin"), Path("/home/lincoln/Documents/amiga_test/output/"))
