@@ -26,7 +26,7 @@ class BaseCameraExporter(ICameraExporter, ABC):
 
             self.handle_frame(event_log, sample, img, camera_export_settings)
 
-        self.close()
+        self.close(camera_export_settings)
 
     @abstractmethod
     def handle_frame(self, event_log: EventLogPosition, sample: oak_pb2.OakFrame, img: cv2.Mat, camera_export_settings: CameraExportSettings):
@@ -40,6 +40,6 @@ class BaseCameraExporter(ICameraExporter, ABC):
         pass
 
     @abstractmethod
-    def close(self):
+    def close(self, camera_export_settings: CameraExportSettings):
         """Will be called once exporting is finished. Can be used to close / clean / end streams and/or resources."""
         pass

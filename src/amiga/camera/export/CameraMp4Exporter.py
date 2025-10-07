@@ -25,7 +25,7 @@ class CameraMp4Exporter(BaseCameraExporter):
         # write the frame to the video
         self.video_writer.write(img)
 
-    def close(self):
+    def close(self, camera_export_settings: CameraExportSettings):
         if self.video_writer is not None:
             self.video_writer.release()
             self.video_writer = None

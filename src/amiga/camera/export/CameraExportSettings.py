@@ -15,3 +15,4 @@ class CameraExportSettings:
     file_name: Path
     output_path: Path
     disparity_scale: int
+    attempt_mpo_combining: bool

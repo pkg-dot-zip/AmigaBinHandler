@@ -29,7 +29,7 @@ class CameraParser:
 
     def parse(
             self, file_name: Path, output_path: Path, camera: ECamera = ECamera.OAK0, view: EView = EView.RGB, disparity_scale: int = 1,
-            export_method: ECameraExportMethod = ECameraExportMethod.JPG
+            export_method: ECameraExportMethod = ECameraExportMethod.JPG, attempt_mpo_combining: bool = True
     ) -> bool:
         """
         Parses camera information from an 'events.bin' file.
@@ -40,6 +40,7 @@ class CameraParser:
         :param view: The name of the camera view to visualize. Default: rbg.
         :param disparity_scale: Scale for amplifying disparity color mapping. Default: 1.
         :param export_method: Type to export.
+        :param attempt_mpo_combining: If found, merges left and right image into a single .mpo file. Does not remove original files.
         """
         # Create the file reader.
         reader = EventsFileReader(file_name)
@@ -70,7 +71,8 @@ class CameraParser:
             output_path=output_path,
             view=view,
             disparity_scale=disparity_scale,
-            export_method=export_method
+            export_method=export_method,
+            attempt_mpo_combining=attempt_mpo_combining,
         )
 
         # Export.
