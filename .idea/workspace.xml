@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e52ae8fb-1fa6-40e7-9802-6965f73cf478" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/amiga/ECamera.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/amiga/EView.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/amiga/camera/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/amiga/camera_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/amiga/camera_parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/amiga/ECamera.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/amiga/camera/ECamera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/amiga/EView.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/amiga/camera/EView.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/amiga/camera_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/amiga/camera/camera_parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dependencyinjection/di_container.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dependencyinjection/di_container.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +96,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1759822493474</updated>
-      <workItem from="1759822494603" duration="2899000" />
+      <workItem from="1759822494603" duration="3203000" />
     </task>
     <servers />
   </component>
@@ -102,6 +104,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/AmigaBinHandler$main.coverage" NAME="main Coverage Results" MODIFIED="1759825380811" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AmigaBinHandler$main.coverage" NAME="main Coverage Results" MODIFIED="1759825717177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

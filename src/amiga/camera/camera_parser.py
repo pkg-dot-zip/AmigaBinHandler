@@ -10,8 +10,8 @@ from farm_ng.core.events_file_reader import EventsFileReader
 from farm_ng.oak import oak_pb2
 from tqdm import tqdm
 
-from amiga.ECamera import ECamera
-from amiga.EView import EView
+from amiga.camera.ECamera import ECamera
+from amiga.camera.EView import EView
 from logger.ILogger import ILogger
 
 

@@ -1,7 +1,7 @@
 import argparse
 from pathlib import Path
 
-from amiga.camera_parser import CameraParser
+from amiga.camera.camera_parser import CameraParser
 from dependencyinjection.di_container import DIContainer
 
 

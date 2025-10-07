@@ -1,6 +1,6 @@
 from lagom import Container, Singleton
 
-from amiga.camera_parser import CameraParser
+from amiga.camera.camera_parser import CameraParser
 from logger.ILogger import ILogger
 from logger.Logger import Logger
 
