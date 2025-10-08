@@ -78,7 +78,7 @@ class CameraParser:
                     left_dir_path = cam_dir_path / EView.LEFT
                     right_dir_path = cam_dir_path / EView.RIGHT
                     mpo_output_dir_path = (cam_dir_path / "mpo")
-                    mpo_output_dir_path.mkdir(parents=True, exist_ok=True)
 
                     if left_dir_path.exists() and right_dir_path.exists():
+                        mpo_output_dir_path.mkdir(parents=True, exist_ok=True)
                         self.mpo_merger.merge_folders(mpo_output_dir_path, left_dir_path, right_dir_path)
