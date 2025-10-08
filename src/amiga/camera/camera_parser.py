@@ -56,8 +56,6 @@ class CameraParser:
         # Structure the index as a dictionary of lists of events.
         events_dict: dict[str, list[EventLogPosition]] = build_events_dict(events_index)
 
-        self.logger.info(f"All available topics: {sorted(events_dict.keys())}")
-
         # customize camera and view
         topic_name = f"/{camera}/{view}"
         if topic_name not in events_dict:
