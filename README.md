@@ -37,7 +37,7 @@ in the application:
 ## Running
 > Make sure you have installed the [ADK](https://amiga.farm-ng.com/docs/brain/brain-install/)!
 
-First of all, clone the repository and open it in PyCharm.
+First of all, clone the repository and open it in [PyCharm](https://www.jetbrains.com/pycharm/).
 
 PyCharm automatically uses the correct virtual environment if you have set up
 the project correctly. If you are using the terminal you might have to add
