@@ -23,15 +23,15 @@ in the application:
 - Export rgb, disparity, left and right camera data (or a selected single one) to _.jpg_'s or a _.mp4_ video.
 - Merge left and right pictures into a single [.mpo](https://en.wikipedia.org/wiki/JPEG#JPEG_Multi-Picture_Format) file using the --mpo argument.
 
-| Argument Name       | Short Form | Description                                               | Required | Type                  | Default    | Choices                             |
+| Argument Name       | Short Form | Description                                               | Required | Type                  | Default    | Valid Choices                       |
 |---------------------|------------|-----------------------------------------------------------|----------|-----------------------|------------|-------------------------------------|
-| `--file`            | `-f`       | Specifies the path to the input `.bin` data file.         | **Yes**  | `Path`                | None       | None                                |
-| `--ouput_dir`       | `-o`       | Specifies the directory to write the parsed data to.      | **Yes**  | `Path`                | None       | None                                |
+| `--file`            | `-f`       | Specifies the path to the input `.bin` data file.         | **Yes**  | `Path`                | None       | Your .bin file                      |
+| `--ouput_dir`       | `-o`       | Specifies the directory to write the parsed data to.      | **Yes**  | `Path`                | None       | Empty directory.                    |
 | `--camera`          | `-c`       | Specifies the camera to parse data from.                  | No       | `ECamera`             | None (all) | `oak0`, `oak1`, `oak2`, `oak3`      |
 | `--view`            | `-v`       | Specifies the view to parse data from.                    | No       | `EView`               | None (all) | `rgb`, `left`, `right`, `disparity` |
 | `--method`          | `-m`       | Specifies the export method for the data.                 | No       | `ECameraExportMethod` | `JPG`      | `jpg`, `mp4`                        |
-| `--disparity_scale` | `-d`       | Specifies the disparity scale for the data.               | No       | `int`                 | `1`        | None                                |
-| `--mpo`             | `-a`       | Combines left and right images into a single `.mpo` file. | No       | `bool`                | `False`    | None                                |
+| `--disparity_scale` | `-d`       | Specifies the disparity scale for the data.               | No       | `int`                 | `1`        | 1-+                                 |
+| `--mpo`             | `-a`       | Combines left and right images into a single `.mpo` file. | No       | `bool`                | `False`    | None (either present or not)        |
 
 
 ## Running
