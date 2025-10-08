@@ -20,10 +20,21 @@ in the application:
 - Export rgb, disparity, left and right camera data (or a selected single one) to _.jpg_'s or a _.mp4_ video.
 - Merge left and right pictures into a single [.mpo](https://en.wikipedia.org/wiki/JPEG#JPEG_Multi-Picture_Format) file using the --mpo argument.
 
+| Argument Name       | Short Form | Description                                               | Required | Type                  | Default    | Choices                             |
+|---------------------|------------|-----------------------------------------------------------|----------|-----------------------|------------|-------------------------------------|
+| `--file`            | `-f`       | Specifies the path to the input `.bin` data file.         | **Yes**  | `Path`                | None       | None                                |
+| `--ouput_dir`       | `-o`       | Specifies the directory to write the parsed data to.      | **Yes**  | `Path`                | None       | None                                |
+| `--camera`          | `-c`       | Specifies the camera to parse data from.                  | No       | `ECamera`             | None (all) | `oak0`, `oak1`, `oak2`, `oak3`      |
+| `--view`            | `-v`       | Specifies the view to parse data from.                    | No       | `EView`               | None (all) | `rgb`, `left`, `right`, `disparity` |
+| `--method`          | `-m`       | Specifies the export method for the data.                 | No       | `ECameraExportMethod` | `JPG`      | `jpg`, `mp4`                        |
+| `--disparity_scale` | `-d`       | Specifies the disparity scale for the data.               | No       | `int`                 | `1`        | None                                |
+| `--mpo`             | `-a`       | Combines left and right images into a single `.mpo` file. | No       | `bool`                | `False`    | None                                |
+
+
 ## Running
 > Make sure you have installed the [ADK](https://amiga.farm-ng.com/docs/brain/brain-install/)!
 
-PyCharm automatically uses the correct virtual environment if you have setup
+PyCharm automatically uses the correct virtual environment if you have set up
 the project correctly. If you are using the terminal you might have to add
 the `src` directory to the `$PYTHONPATH` to avoid `ModuleNotFoundError`s like this:
 
