@@ -20,7 +20,7 @@ def main():
     camera_parser_cmd.add_argument("-v", "--view", dest="view_name", type=EView, choices=[e for e in EView], help="View name")
     camera_parser_cmd.add_argument("-m", "--method", dest="export_method", type=ECameraExportMethod, default=ECameraExportMethod.JPG, choices=[e for e in ECameraExportMethod], help="Export method")
     camera_parser_cmd.add_argument("-d", "--disparity_scale", dest="disparity_scale", type=int, default=1, help="Disparity scale")
-    camera_parser_cmd.add_argument("-a", "--mpo", dest="attempt_mpo_combining", action="store_true", help="Attempt to combine left and right images into a single .mpo file")
+    camera_parser_cmd.add_argument("-a", "--mpo", dest="attempt_mpo_combining", action="store_true", help="Combine left and right images into a single .mpo file")
 
     # Handle main parser.
     container = DIContainer.get_container()
