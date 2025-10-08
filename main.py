@@ -1,36 +1,60 @@
 import argparse
 from pathlib import Path
 
-from amiga.camera_parser import CameraParser
+from amiga.camera.ECamera import ECamera
+from amiga.camera.EView import EView
+from amiga.camera.camera_parser import CameraParser
+from amiga.camera.export.CameraExportSettings import CameraExportSettings
+from amiga.camera.export.ECameraExportMethod import ECameraExportMethod
 from dependencyinjection.di_container import DIContainer
 
+def main():
+    parser = argparse.ArgumentParser(description="Parse data from .bin files.")
+    subparsers = parser.add_subparsers(dest="parser", help="Specify the parsing type.")
 
-def old_code():
-    parser = argparse.ArgumentParser(prog="python main.py", description="Event file converter example.")
-    parser.add_argument("--file-name", type=Path, required=True, help="Path to the `events.bin` file.")
-    parser.add_argument("--output-path", type=Path, help="Path to the folder where converted data will be written.")
-    parser.add_argument(
-        "--camera-name", type=str, default="oak0", help="The name of the camera to visualize. Default: oak0."
-    )
-    parser.add_argument(
-        "--view-name",
-        type=str,
-        default="rgb",
-        choices=["rgb", "left", "right", "disparity"],
-        help="The name of the camera view to visualize. Default: rbg.",
-    )
-    parser.add_argument(
-        "--disparity-scale", type=int, default=1, help="Scale for amplifying disparity color mapping. Default: 1."
-    )
-    parser.add_argument(
-        '--video-to-jpg',
-        action='store_true',
-        help="Use this flag to convert video .bin files to a series of jpg images. Default is mp4.",
-    )
+    # Camera parsing subparser
+    camera_parser_cmd = subparsers.add_parser("camera", help="Parse camera data")
+    camera_parser_cmd.add_argument("-o", "--output_dir", dest="output_dir", type=Path, required=True, help="Output directory")
+    camera_parser_cmd.add_argument("-f", "--file", dest="file_name", type=Path, required=True, help="Path to the .bin data file")
+    camera_parser_cmd.add_argument("-c", "--camera", dest="camera_name", type=ECamera, choices=[e for e in ECamera], help="Camera name")
+    camera_parser_cmd.add_argument("-v", "--view", dest="view_name", type=EView, choices=[e for e in EView], help="View name")
+    camera_parser_cmd.add_argument("-m", "--method", dest="export_method", type=ECameraExportMethod, default=ECameraExportMethod.JPG, choices=[e for e in ECameraExportMethod], help="Export method")
+    camera_parser_cmd.add_argument("-d", "--disparity_scale", dest="disparity_scale", type=int, default=1, help="Disparity scale")
+    camera_parser_cmd.add_argument("-a", "--mpo", dest="attempt_mpo_combining", action="store_true", help="Combine left and right images into a single .mpo file")
+
+    # Handle main parser.
+    container = DIContainer.get_container()
     args = parser.parse_args()
 
-    # main(args.file_name, args.output_path, args.camera_name, args.view_name, args.disparity_scale, args.video_to_jpg)
+    # If camera target specified.
+    if args.parser == "camera":
+        camera_settings = CameraExportSettings(
+            file_name=args.file_name,
+            output_path=args.output_dir,
+            camera=args.camera_name,
+            view=args.view_name,
+            export_method=args.export_method,
+            disparity_scale=args.disparity_scale,
+            attempt_mpo_combining=args.attempt_mpo_combining,
+        )
+
+        camera_handler = container[CameraParser]
+        if args.camera_name is not None and args.view_name is not None:
+            camera_handler.parse(camera_settings)
+        elif args.camera_name is not None:
+            for v in EView:
+                camera_settings.view = v
+                camera_handler.parse(camera_settings)
+        elif args.view_name is not None:
+            for c in ECamera:
+                camera_settings.camera = c
+                camera_handler.parse(camera_settings)
+        else:
+            camera_handler.parse_all(camera_settings)
+
+    # No valid target.
+    else:
+        parser.print_help()
 
 if __name__ == "__main__":
-    container = DIContainer.get_container()
-    container[CameraParser].parse(Path("/home/lincoln/Documents/amiga_test/test_bin.bin"), Path("/home/lincoln/Documents/amiga_test/output/"), "oak0", "rgb", 1, True)
+    main()
