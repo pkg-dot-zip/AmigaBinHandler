@@ -47,7 +47,7 @@ class CameraParser:
         # Structure the index as a dictionary of lists of events.
         events_dict: dict[str, list[EventLogPosition]] = build_events_dict(events_index)
 
-        # customize camera and view
+        # Customize camera and view.
         topic_name = f"/{export_settings.camera}/{export_settings.view}"
         if topic_name not in events_dict:
             self.logger.error(f"Camera view not found: {topic_name}")
