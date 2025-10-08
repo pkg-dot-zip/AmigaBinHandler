@@ -1,5 +1,8 @@
 # AmigaBinHandler
 
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/pkg-dot-zip/AmigaBinHandler)
+![GitHub Repo stars](https://img.shields.io/github/stars/pkg-dot-zip/AmigaBinHandler)
+
 ![](https://github.com/farm-ng/amiga-dev-kit/assets/64480560/18dbebd2-98a1-4c5b-b6b4-2c73093fb7df)
 
 ## What is this?
