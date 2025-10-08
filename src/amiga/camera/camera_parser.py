@@ -56,6 +56,7 @@ class CameraParser:
         camera_events: list[EventLogPosition] = events_dict[topic_name]
 
         # Export.
+        self.logger.info(f"Exporting for {topic_name}...")
         exporter = self.camera_export_retriever.get_retriever(export_settings.export_method)
         exporter.export(camera_events, export_settings)
 
@@ -65,6 +66,8 @@ class CameraParser:
         # MPO.
         if export_settings.attempt_mpo_combining:
             self.__create_mpo_files(export_settings.output_path)
+
+        self.logger.info(f"DONE - Exported for {topic_name}")
 
         return True
 
