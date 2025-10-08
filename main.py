@@ -40,11 +40,15 @@ def main():
 
         camera_handler = container[CameraParser]
         if args.camera_name is not None and args.view_name is not None:
-            pass
+            camera_handler.parse(camera_settings)
         elif args.camera_name is not None:
-            pass
+            for v in EView:
+                camera_settings.view = v
+                camera_handler.parse(camera_settings)
         elif args.view_name is not None:
-            pass
+            for c in ECamera:
+                camera_settings.camera = c
+                camera_handler.parse(camera_settings)
         else:
             camera_handler.parse_all(camera_settings)
 
