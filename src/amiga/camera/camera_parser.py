@@ -8,19 +8,18 @@ from farm_ng.core.events_file_reader import build_events_dict
 
 from amiga.camera.ECamera import ECamera
 from amiga.camera.EView import EView
+from amiga.camera.export.CameraExportRetriever import CameraExportRetriever
 from amiga.camera.export.CameraExportSettings import CameraExportSettings
-from amiga.camera.export.CameraJpgExporter import CameraJpgExporter
-from amiga.camera.export.CameraMp4Exporter import CameraMp4Exporter
 from amiga.camera.export.ECameraExportMethod import ECameraExportMethod
-from amiga.camera.export.ICameraExporter import ICameraExporter
 from logger.ILogger import ILogger
 from util.mpo_merger import MPOMerger
 
 
 class CameraParser:
-    def __init__(self, logger: ILogger, mpo_merger: MPOMerger):
+    def __init__(self, logger: ILogger, mpo_merger: MPOMerger, camera_export_retriever: CameraExportRetriever):
         self.logger = logger
         self.mpo_merger = mpo_merger
+        self.camera_export_retriever = camera_export_retriever
 
     def parse_all(self, file_name: Path, output_path: Path, disparity_scale: int = 1,
             export_method: ECameraExportMethod = ECameraExportMethod.JPG) -> None:
@@ -78,13 +77,7 @@ class CameraParser:
         )
 
         # Export.
-        exporter: ICameraExporter
-        if camera_export_settings.export_method == ECameraExportMethod.JPG:
-            exporter = CameraJpgExporter()
-        elif camera_export_settings.export_method == ECameraExportMethod.MP4:
-            exporter = CameraMp4Exporter()
-        else:
-            raise NotImplementedError()
+        exporter = self.camera_export_retriever.get_retriever(camera_export_settings.export_method)
         exporter.export(camera_events, camera_export_settings)
 
         # Close resources.
