@@ -1,6 +1,7 @@
-from enum import IntEnum
+from enum import StrEnum
 
-class ECameraExportMethod(IntEnum):
+
+class ECameraExportMethod(StrEnum):
     """Export types for camera data parsing."""
-    JPG = 1,
-    MP4 = 2,
+    JPG = "jpg",
+    MP4 = "mp4",
