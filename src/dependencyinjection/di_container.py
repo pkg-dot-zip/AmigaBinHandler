@@ -2,6 +2,7 @@ from typing import List, Optional
 
 from lagom import Container, Singleton
 
+from MainApp import MainApp
 from amiga.camera.camera_parser import CameraParser
 from amiga.camera.export.CameraExportRetriever import CameraExportRetriever
 from logger.ILogger import ILogger
@@ -17,6 +18,7 @@ class DIContainer:
     def get_container() -> Container:
         if DIContainer.container is None:
             DIContainer.container = Container()
+            DIContainer.container[MainApp] = Singleton(MainApp)
             DIContainer.container[ILogger] = Singleton(Logger)
             DIContainer.container[CameraParser] = Singleton(CameraParser)
             DIContainer.container[MPOMerger] = Singleton(MPOMerger)

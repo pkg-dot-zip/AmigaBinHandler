@@ -1,7 +1,5 @@
 from pathlib import Path
 
-from lagom import Container
-
 from amiga.camera.ECamera import ECamera
 from amiga.camera.EView import EView
 from amiga.camera.camera_parser import CameraParser
@@ -11,6 +9,9 @@ from parser.IArgParser import IArgParser
 
 
 class CameraArgParser(IArgParser):
+    def __init__(self, camera_parser: CameraParser):
+        self.camera_parser = camera_parser
+
     def get_component_name(self) -> str:
         return "camera"
 
@@ -32,7 +33,7 @@ class CameraArgParser(IArgParser):
         camera_parser_cmd.add_argument("-a", "--mpo", dest="attempt_mpo_combining", action="store_true",
                                        help="Combine left and right images into a single .mpo file")
 
-    def handle_parse(self, args, container: Container):
+    def handle_parse(self, args):
         camera_settings = CameraExportSettings(
             file_name=args.file_name,
             output_path=args.output_dir,
@@ -43,16 +44,15 @@ class CameraArgParser(IArgParser):
             attempt_mpo_combining=args.attempt_mpo_combining,
         )
 
-        camera_handler = container[CameraParser]
         if args.camera_name is not None and args.view_name is not None:
-            camera_handler.parse(camera_settings)
+            self.camera_parser.parse(camera_settings)
         elif args.camera_name is not None:
             for v in EView:
                 camera_settings.view = v
-                camera_handler.parse(camera_settings)
+                self.camera_parser.parse(camera_settings)
         elif args.view_name is not None:
             for c in ECamera:
                 camera_settings.camera = c
-                camera_handler.parse(camera_settings)
+                self.camera_parser.parse(camera_settings)
         else:
-            camera_handler.parse_all(camera_settings)
+            self.camera_parser.parse_all(camera_settings)

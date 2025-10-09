@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
 
-from lagom import Container
-
 
 class IArgParser(ABC):
     @abstractmethod
@@ -15,6 +13,6 @@ class IArgParser(ABC):
         pass
 
     @abstractmethod
-    def handle_parse(self, args, container: Container):
+    def handle_parse(self, args):
         """This is the code that will be executed if a user uses this component."""
         pass
