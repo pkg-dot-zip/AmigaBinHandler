@@ -1,58 +1,33 @@
 import argparse
-from pathlib import Path
+from typing import List, Optional
 
-from amiga.camera.ECamera import ECamera
-from amiga.camera.EView import EView
-from amiga.camera.camera_parser import CameraParser
-from amiga.camera.export.CameraExportSettings import CameraExportSettings
-from amiga.camera.export.ECameraExportMethod import ECameraExportMethod
 from dependencyinjection.di_container import DIContainer
+from parser.IArgParser import IArgParser
+
+container = DIContainer.get_container()
+
+def get_parser(args) -> Optional[IArgParser]:
+    parsers = container[List[IArgParser]]
+    for p in parsers:
+        if p.get_component_name() == args.parser:
+            return p
+    return None
+
 
 def main():
     parser = argparse.ArgumentParser(description="Parse data from .bin files.")
     subparsers = parser.add_subparsers(dest="parser", help="Specify the parsing type.")
 
-    # Camera parsing subparser
-    camera_parser_cmd = subparsers.add_parser("camera", help="Parse camera data")
-    camera_parser_cmd.add_argument("-o", "--output_dir", dest="output_dir", type=Path, required=True, help="Output directory")
-    camera_parser_cmd.add_argument("-f", "--file", dest="file_name", type=Path, required=True, help="Path to the .bin data file")
-    camera_parser_cmd.add_argument("-c", "--camera", dest="camera_name", type=ECamera, choices=[e for e in ECamera], help="Camera name")
-    camera_parser_cmd.add_argument("-v", "--view", dest="view_name", type=EView, choices=[e for e in EView], help="View name")
-    camera_parser_cmd.add_argument("-m", "--method", dest="export_method", type=ECameraExportMethod, default=ECameraExportMethod.JPG, choices=[e for e in ECameraExportMethod], help="Export method")
-    camera_parser_cmd.add_argument("-d", "--disparity_scale", dest="disparity_scale", type=int, default=1, help="Disparity scale")
-    camera_parser_cmd.add_argument("-a", "--mpo", dest="attempt_mpo_combining", action="store_true", help="Combine left and right images into a single .mpo file")
+    # First add all subparsers.
+    for e in container[List[IArgParser]]:
+        e.add_parser(subparsers)
 
-    # Handle main parser.
-    container = DIContainer.get_container()
+    # Look for the asked component and then pass args.
     args = parser.parse_args()
+    component_parser = get_parser(args)
 
-    # If camera target specified.
-    if args.parser == "camera":
-        camera_settings = CameraExportSettings(
-            file_name=args.file_name,
-            output_path=args.output_dir,
-            camera=args.camera_name,
-            view=args.view_name,
-            export_method=args.export_method,
-            disparity_scale=args.disparity_scale,
-            attempt_mpo_combining=args.attempt_mpo_combining,
-        )
-
-        camera_handler = container[CameraParser]
-        if args.camera_name is not None and args.view_name is not None:
-            camera_handler.parse(camera_settings)
-        elif args.camera_name is not None:
-            for v in EView:
-                camera_settings.view = v
-                camera_handler.parse(camera_settings)
-        elif args.view_name is not None:
-            for c in ECamera:
-                camera_settings.camera = c
-                camera_handler.parse(camera_settings)
-        else:
-            camera_handler.parse_all(camera_settings)
-
-    # No valid target.
+    if component_parser is not None:
+        component_parser.handle_parse(args, container)
     else:
         parser.print_help()
 
