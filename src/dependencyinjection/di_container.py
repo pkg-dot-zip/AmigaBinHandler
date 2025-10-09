@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from lagom import Container, Singleton
 
@@ -10,19 +10,22 @@ from parser.CameraArgParser import CameraArgParser
 from parser.IArgParser import IArgParser
 from util.mpo_merger import MPOMerger
 
-
 class DIContainer:
+    container: Optional[Container] = None
+
     @staticmethod
     def get_container() -> Container:
-        container = Container()
+        if DIContainer.container is None:
+            DIContainer.container = Container()
+            DIContainer.container[ILogger] = Singleton(Logger)
+            DIContainer.container[CameraParser] = Singleton(CameraParser)
+            DIContainer.container[MPOMerger] = Singleton(MPOMerger)
+            DIContainer.container[CameraExportRetriever] = Singleton(CameraExportRetriever)
 
-        container[ILogger] = Singleton(Logger)
-        container[CameraParser] = Singleton(CameraParser)
-        container[MPOMerger] = Singleton(MPOMerger)
-        container[CameraExportRetriever] = Singleton(CameraExportRetriever)
+            # All ArgParsers.
+            DIContainer.container[CameraArgParser] = Singleton(CameraArgParser)
+            DIContainer.container[List[IArgParser]] = [
+                DIContainer.container[CameraArgParser],
+            ]
 
-        # All ArgParsers.
-        container[CameraArgParser] = Singleton(CameraArgParser)
-        container[List[IArgParser]] = [container[CameraArgParser]]
-
-        return container
+        return DIContainer.container
